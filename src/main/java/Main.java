@@ -11,7 +11,16 @@ public class Main {
         bot.setUpdatesListener(updates -> {
             updates.forEach(update -> {
                 long chatId = update.message().chat().id();
-                bot.execute(new SendMessage(chatId, String.format("Hello, %s!", update.message().chat().firstName())));
+                if (update.message().text().toLowerCase().contains("hi") ||
+                        update.message().text().toLowerCase().contains("hello")) {
+                    bot.execute(new SendMessage(
+                            chatId,
+                            String.format("Hello, %s!", update.message().chat().firstName())));
+                } else {
+                    bot.execute(new SendMessage(
+                            chatId,
+                            String.format("%s, how rude! You should begin with proper greetings.", update.message().chat().firstName())));
+                }
             });
             return UpdatesListener.CONFIRMED_UPDATES_ALL;
         });
